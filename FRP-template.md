@@ -29,7 +29,7 @@ Several ways come to my mind for now to approach this question.
 
 With these approaches above, we should have deeper insights into CEX-DEX searchers’ realized PnL and integrated searcher-builder profitability.
 
-Deliverable: A paper or a post on Flashbots Collective presenting the analyses and results
+**Deliverable**: A paper or a post on Flashbots Collective presenting the analyses and results
 
 ## References
 [1] Fei Wu, Danning Sui, Thomas Thiery, Mallesh Pai. “Measuring CEX-DEX Extracted Value and Searcher Profitability—The Darkest of the MEV Dark Forest”. Available upon request.
