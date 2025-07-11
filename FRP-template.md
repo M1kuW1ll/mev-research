@@ -1,21 +1,37 @@
 ---
 id: <leave blank -- will be assigned by reviewers>
-title: <proposal title>
-team: <team that will carry out the proposal, with a designated lead>
-created: <date created on, in yyyy-mm-dd format>
+title: <Empirical Analysis of CEX-DEX Arbitrage PnL with Bounded Liquidity>
+team: <Fei Wu>
+created: <2025-07-11>
 ---
 
-# Flashbots Research Proposal Template
+# FRP: Empirical Analysis of CEX-DEX Arbitrage PnL with Bounded Liquidity
 
-Follow this template for new research proposals, removing this text and replacing the *Flashbots Research Proposal Template* title with your proposal's own. Open a pull request to submit your proposal, using an abbreviated title in the filename (`proposal-short_title.md`), and put the file under the `FRPs` folder.
-
-Use this initial section to provide a ~500 word summary of the proposal. The summary should consist in a simple straightforward statement of what your hypothesis is, what methodology you intend to use, what limitations those methods may have, what implications your results may have.
+Existing empirical studies typically overestimate the profit and loss (PnL) of CEX-DEX arbitrageurs by using markouts calculated with CEX mid price. Building upon our recent work, this proposed research plans to conduct an empirical analysis to have a better estimation of the realized PnL of CEX-DEX arbitrageurs and the profitability of integrated searcher-builders by accounting for the cost of liquidity.
 
 ## Background and Problem Statement
-Provide motivation and background for the proposal, and clearly state the research questions it aims to tackle. Link to related or dependent Research Question(s) on the Flashbots Research Roadmap, and reference relevant Github Issues in this repository.
+This proposal is developed based on the “Arbitrage with bounded liquidity” topic in the Flashbots Research Problem Database and a very recent work we have achieved under the The Latest in DeFi Research (TLDR) fellowship program (currently under double-anonymous review and available upon request).
+
+In our recent empirical work [1], by checking the markouts calculated with the CEX mid price around the slot time for all historical CEX-DEX trades for each searcher (identified from on-chain data using heuristics), we can empirically observe that markouts typically reach their highest point before they start to drop. In other words, we know when each searcher’s information advantage (alpha signal) typically maximizes before their profit is eroded by market impact, including the impact of their own hedge trade. And assuming that the searcher starts to hedge at this time point, markouts calculated with mid price provide an upper-bound estimation of arbitrage revenue and searcher PnL.
+
+The problem with this methodology is that this (over)estimation does not account for the liquidity of the tokens and ignores the cost of hedge execution, i.e., slippage or price impact.
 
 ## Plan and Deliverables
-Describe the planned approach to the problem, including potential time allocations and partitioning into phases. List the artifacts or intended deliverables of the proposal.
+Several ways come to my mind for now to approach this question. 
+
+1. Instead of using the mid price, we can use the implementation volume-weighted average price (VWAP). This would assume that the searcher hedges their position instantly, sweeping the CEX orderbook and experiencing the maximum slippage. By doing this, we should get a lower-bound estimation of arbitrage revenue and searcher PnL, and we know the ranges of their values by incorporating this lower-bound estimation with the prior upper-bound estimation.
+2. Aside from mid price or VWAP, we can also try to use time-weighted average price (TWAP) during the hedge window. TWAP should provide a more accurate estimation of the actual average execution price by accounting for part of the price impact (i.e., permanent price impact) incurred during the hedge window. Note that using TWAP does not capture the full price impact since we are essentially assuming that the hedge is executed in infinitely small slices such that these small slices do not incur any slippage (i.e., temporary price impact).
+    
+    To know TWAP, we need to know the hedge window. For low-liquid token pairs, this is easy to be derived from empirical observations in our prior work [1]. However, for high-liquid token pairs, we cannot directly derive from empirical observations. A possible solution could be to apply the Almgren‑Chriss model with some assumptions of searchers’ risk-aversion and calibrate it against empirical data to derive plausible bounds or a distribution for the hedge window.
+    
+3. We can also try to develop a hedge cost model and calibrate it against empirical data. This has been covered by [2], where the author modeled the hedge cost as quadratic (i.e., linear impact) for low-liquid token pairs, which is also mentioned in the Almgren–Chriss model. For high-liquid token pairs, a simple and effective model could be that the hedge cost is linear to the trade size, i.e., the marginal cost is constant.
+4. From our earlier discussion with SCP, we were informed that the arbitrage opportunity is highly competitive among searchers recently, and the bid they put for that opportunity (i.e., coinbase transfer alongside the transaction) is very close to 100% of their expected arbitrage revenue. This can be translated into: the difference between the best markout and their bid value is essentially their estimation of the hedge cost based on their model. We can then reverse engineer and apply regressions to fit a hedge cost model for each token pair and apply it to other searchers. 
+
+With these approaches above, we should have deeper insights into CEX-DEX searchers’ realized PnL and integrated searcher-builder profitability.
+
+Deliverable: A paper or a post on Flashbots Collective presenting the analyses and results
 
 ## References
-Reference current relevant literature or past work pertaining to the research question(s) at stake.
+[1] Fei Wu, Danning Sui, Thomas Thiery, Mallesh Pai. “Measuring CEX-DEX Extracted Value and Searcher Profitability—The Darkest of the MEV Dark Forest”. Available upon request.
+
+[2] Christoph Schlegel. "Arbitrage with bounded Liquidity." *arXiv preprint arXiv:2507.02027* (2025). https://collective.flashbots.net/t/arbitrage-with-bounded-liquidity/5064
