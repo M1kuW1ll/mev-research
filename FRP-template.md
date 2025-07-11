@@ -1,8 +1,8 @@
 ---
 id: <leave blank -- will be assigned by reviewers>
-title: <Empirical Analysis of CEX-DEX Arbitrage PnL with Bounded Liquidity>
-team: <Fei Wu>
-created: <2025-07-11>
+title: Empirical Analysis of CEX-DEX Arbitrage PnL with Bounded Liquidity
+team: Fei Wu
+created: 2025-07-11
 ---
 
 # FRP: Empirical Analysis of CEX-DEX Arbitrage PnL with Bounded Liquidity
