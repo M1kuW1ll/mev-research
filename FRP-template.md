@@ -32,6 +32,6 @@ With these approaches above, we should have deeper insights into CEX-DEX searche
 **Deliverable**: A paper or a post on Flashbots Collective presenting the analyses and results
 
 ## References
-[1] Fei Wu, Danning Sui, Thomas Thiery, Mallesh Pai. “Measuring CEX-DEX Extracted Value and Searcher Profitability: The Darkest of the MEV Dark Forest”. 
+[1] Fei Wu, Danning Sui, Thomas Thiery, Mallesh Pai. “Measuring CEX-DEX Extracted Value and Searcher Profitability: The Darkest of the MEV Dark Forest”. Accepted by AFT 2025.
 
 [2] Christoph Schlegel. "Arbitrage with bounded Liquidity." *arXiv preprint arXiv:2507.02027* (2025). https://collective.flashbots.net/t/arbitrage-with-bounded-liquidity/5064
